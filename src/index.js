@@ -85,31 +85,20 @@ class TagCloud {
     // create a text
     _createTextItem(text, index = 0) {
         const self = this;
-        const itemEl = document.createElement('span');
-        itemEl.className = 'tagcloud--item';
-        itemEl.style.position = 'absolute';
-        itemEl.style.top = '50%';
-        itemEl.style.left = '50%';
-        itemEl.style.zIndex = index + 1;
-        itemEl.style.filter = 'alpha(opacity=0)';
-        itemEl.style.opacity = 0;
-        itemEl.style.willChange = 'transform, opacity, filter';
-        const transformOrigin = '50% 50%';
-        itemEl.style.WebkitTransformOrigin = transformOrigin;
-        itemEl.style.MozTransformOrigin = transformOrigin;
-        itemEl.style.OTransformOrigin = transformOrigin;
-        itemEl.style.transformOrigin = transformOrigin;
+        const itemEl = document.createElement('a');
+        itemEl.className = `tagcloud--item tagcloud--item-weight-${text.weight * 10}`;
+        itemEl.innerText = text.content;
+        itemEl.href = `#${text.content}`;
+
         const transform = 'translate3d(-50%, -50%, 0) scale(1)';
         itemEl.style.WebkitTransform = transform;
         itemEl.style.MozTransform = transform;
         itemEl.style.OTransform = transform;
         itemEl.style.transform = transform;
-        const transition = 'all .1s';
-        itemEl.style.WebkitTransition = transition;
-        itemEl.style.MozTransition = transition;
-        itemEl.style.OTransition = transition;
-        itemEl.style.transition = transition;
-        itemEl.innerText = text;
+        itemEl.style.filter = 'alpha(opacity=0)';
+        itemEl.style.opacity = '0';
+        itemEl.style.zIndex = index + 1;
+
         return {
             el: itemEl,
             ...self._computePosition(index), // distributed in appropriate place

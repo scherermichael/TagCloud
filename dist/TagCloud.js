@@ -7,7 +7,7 @@
   typeof exports === 'object' && typeof module !== 'undefined' ? module.exports = factory() :
   typeof define === 'function' && define.amd ? define(factory) :
   (global = global || self, global.TagCloud = factory());
-}(this, function () { 'use strict';
+}(this, (function () { 'use strict';
 
   function _classCallCheck(instance, Constructor) {
     if (!(instance instanceof Constructor)) {
@@ -83,13 +83,13 @@
       var source = arguments[i] != null ? arguments[i] : {};
 
       if (i % 2) {
-        ownKeys(source, true).forEach(function (key) {
+        ownKeys(Object(source), true).forEach(function (key) {
           _defineProperty(target, key, source[key]);
         });
       } else if (Object.getOwnPropertyDescriptors) {
         Object.defineProperties(target, Object.getOwnPropertyDescriptors(source));
       } else {
-        ownKeys(source).forEach(function (key) {
+        ownKeys(Object(source)).forEach(function (key) {
           Object.defineProperty(target, key, Object.getOwnPropertyDescriptor(source, key));
         });
       }
@@ -102,9 +102,7 @@
    * TagCloud.js (c) 2016-2019 @ Cong Min
    * MIT License - https://github.com/mcc108/TagCloud
    */
-  var TagCloud =
-  /*#__PURE__*/
-  function () {
+  var TagCloud = /*#__PURE__*/function () {
     /* constructor */
     function TagCloud() {
       var container = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : document.body;
@@ -118,9 +116,9 @@
 
       self.$container = container;
       self.texts = texts || [];
-      self.config = _objectSpread2({}, TagCloud._defaultConfig, {}, options || {}); // calculate config
+      self.config = _objectSpread2(_objectSpread2({}, TagCloud._defaultConfig), options || {}); // calculate config
 
-      self.radius = self.config.radius; // rolling radius
+      self.radius = self.config.radius || container.clientHeight / 2; // rolling radius
 
       self.depth = 2 * self.radius; // rolling depth
 
@@ -181,31 +179,18 @@
       value: function _createTextItem(text) {
         var index = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : 0;
         var self = this;
-        var itemEl = document.createElement('span');
-        itemEl.className = 'tagcloud--item';
-        itemEl.style.position = 'absolute';
-        itemEl.style.top = '50%';
-        itemEl.style.left = '50%';
-        itemEl.style.zIndex = index + 1;
-        itemEl.style.filter = 'alpha(opacity=0)';
-        itemEl.style.opacity = 0;
-        itemEl.style.willChange = 'transform, opacity, filter';
-        var transformOrigin = '50% 50%';
-        itemEl.style.WebkitTransformOrigin = transformOrigin;
-        itemEl.style.MozTransformOrigin = transformOrigin;
-        itemEl.style.OTransformOrigin = transformOrigin;
-        itemEl.style.transformOrigin = transformOrigin;
+        var itemEl = document.createElement('a');
+        itemEl.className = "tagcloud--item tagcloud--item-weight-".concat(text.weight * 10);
+        itemEl.innerText = text.content;
+        itemEl.href = "#".concat(text.content);
         var transform = 'translate3d(-50%, -50%, 0) scale(1)';
         itemEl.style.WebkitTransform = transform;
         itemEl.style.MozTransform = transform;
         itemEl.style.OTransform = transform;
         itemEl.style.transform = transform;
-        var transition = 'all .1s';
-        itemEl.style.WebkitTransition = transition;
-        itemEl.style.MozTransition = transition;
-        itemEl.style.OTransition = transition;
-        itemEl.style.transition = transition;
-        itemEl.innerText = text;
+        itemEl.style.filter = 'alpha(opacity=0)';
+        itemEl.style.opacity = '0';
+        itemEl.style.zIndex = index + 1;
         return _objectSpread2({
           el: itemEl
         }, self._computePosition(index));
@@ -387,8 +372,6 @@
 
   TagCloud.list = [];
   TagCloud._defaultConfig = {
-    radius: 100,
-    // rolling radius, unit `px`
     maxSpeed: 'normal',
     // rolling max speed, optional: `slow`, `normal`(default), `fast`
     initSpeed: 'normal',
@@ -429,4 +412,4 @@
 
   return index;
 
-}));
+})));
