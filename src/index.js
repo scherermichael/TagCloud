@@ -15,7 +15,7 @@ class TagCloud {
         self.config = { ...TagCloud._defaultConfig, ...options || {} };
 
         // calculate config
-        self.radius = self.config.radius; // rolling radius
+        self.radius = self.config.radius || container.clientHeight / 2; // rolling radius
         self.depth = 2 * self.radius; // rolling depth
         self.size = 1.5 * self.radius; // rolling area size with mouse
         self.maxSpeed = TagCloud._getMaxSpeed(self.config.maxSpeed); // rolling max speed
@@ -37,7 +37,6 @@ class TagCloud {
 
     // default config
     static _defaultConfig = {
-        radius: 100, // rolling radius, unit `px`
         maxSpeed: 'normal', // rolling max speed, optional: `slow`, `normal`(default), `fast`
         initSpeed: 'normal', // rolling init speed, optional: `slow`, `normal`(default), `fast`
         direction: 135, // rolling init direction, unit clockwise `deg`, optional: `0`(top) , `90`(left), `135`(right-bottom)(default)...
