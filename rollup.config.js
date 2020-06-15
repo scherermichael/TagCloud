@@ -12,6 +12,7 @@ const banner = '/*!\n'
     + ` * TagCloud.js v${version}\n`
     + ` * Copyright (c) 2016-${new Date().getFullYear()} @ Cong Min\n`
     + ' * MIT License - https://github.com/mcc108/TagCloud\n'
+    + ' * Forked and modified by Michael Scherer: https://github.com/scherermichael/TagCloud\n'
     + ' */';
 
 export default [{
